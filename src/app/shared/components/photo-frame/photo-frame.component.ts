@@ -11,7 +11,10 @@ export class PhotoFrameComponent implements OnInit, OnDestroy {
   @Output() public liked: EventEmitter<void> = new EventEmitter();
   @Input() public description = '';
   @Input() public src = '';
-  @Input() public likes = 0;
+  //@Input() public likes = 0;
+  
+  public likes = 0;
+
   private debounceSubject: Subject<void> = new Subject();
   private unsubscribe: Subject<void> = new Subject();
 
@@ -20,7 +23,7 @@ export class PhotoFrameComponent implements OnInit, OnDestroy {
       .asObservable()
       .pipe(debounceTime(500))
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.liked.emit());
+      .subscribe(() => this.likes++);
   }
 
   public ngOnDestroy(): void {
@@ -29,6 +32,7 @@ export class PhotoFrameComponent implements OnInit, OnDestroy {
   }
 
   public like(): void {
+    console.log("o valor foi emitido");
     this.debounceSubject.next();
   }
 }

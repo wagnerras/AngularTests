@@ -19,7 +19,7 @@ describe(PhotoFrameComponent.name, () => {
     expect(component).toBeTruthy();
   });
 
-  it(`#${PhotoFrameComponent.prototype.like.name}
+  /* it(`#${PhotoFrameComponent.prototype.like.name}
     should trigger (@Output liked) once when called
     multiple times within debounce time`, fakeAsync(() => {
       fixture.detectChanges();
@@ -29,9 +29,19 @@ describe(PhotoFrameComponent.name, () => {
       component.like();
       tick(500);
       expect(times).toBe(1);
-  }));
+  })); */
 
-  it(`#${PhotoFrameComponent.prototype.like.name}
+    it(`#${PhotoFrameComponent.prototype.like.name}
+    should increase (likes) once when called
+    multiple times within debounce time`, fakeAsync(() => {
+      fixture.detectChanges();
+      component.like();
+      component.like();
+      tick(500);
+      expect(component.likes).toBe(1);
+  })); 
+
+  /* it(`#${PhotoFrameComponent.prototype.like.name}
     should trigger (@Output liked) two times when
     called outside debounce time`, fakeAsync(() => {
       fixture.detectChanges();
@@ -42,6 +52,17 @@ describe(PhotoFrameComponent.name, () => {
       component.like();
       tick(500);
       expect(times).toBe(2);
+    })); */
+
+    it(`#${PhotoFrameComponent.prototype.like.name}
+    should likes increased two times when
+    called outside debounce time`, fakeAsync(() => {
+      fixture.detectChanges();
+      component.like();
+      tick(500);
+      component.like();
+      tick(500);
+      expect(component.likes).toBe(2);
     }));
 
   it(`(D) Should display number of likes when (@Input likes) is incremented`, () => {
