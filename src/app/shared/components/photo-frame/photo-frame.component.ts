@@ -8,35 +8,27 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
   styleUrls: ['./photo-frame.component.scss']
 })
 export class PhotoFrameComponent implements OnInit, OnDestroy {
-  @Output() liked = new EventEmitter();
-  @Input() description = '';
-  @Input() src = '';
-  @Input() likes = 0;
-  private debounceSubject = new Subject();
-  private unsubscribe = new Subject();
+  @Output() public liked: EventEmitter<void> = new EventEmitter();
+  @Input() public description = '';
+  @Input() public src = '';
+  @Input() public likes = 0;
+  private debounceSubject: Subject<void> = new Subject();
+  private unsubscribe: Subject<void> = new Subject();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.debounceSubject
       .asObservable()
-      .pipe(
-        debounceTime(500),
-        takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.liked.emit();
-      })
+      .pipe(debounceTime(500))
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.liked.emit());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
 
-  public like() {
+  public like(): void {
     this.debounceSubject.next();
   }
-
-
-
 }
